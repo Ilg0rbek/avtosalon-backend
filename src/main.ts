@@ -9,12 +9,11 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   const options = new DocumentBuilder()
     .setTitle('Avtosalon API')
-    .setDescription('Bu apilar Nest js texnologiyasi yordamida qurilgan')
+    .setDescription('Local api 👨🏻‍💻')
     .setVersion('1.0')
     .addServer('http://localhost:8080/', 'Local environment')
     .addServer('https://staging.yourapi.com/', 'Staging')
     .addServer('https://production.yourapi.com/', 'Production')
-    .addTag('Startup api')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('/', app, document);

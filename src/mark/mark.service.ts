@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Mark } from './schema/mark.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Markdto } from './dto/markdto';
+import { Markdto } from '../interfaces/markdto';
 
 @Injectable()
 export class MarkService {
