@@ -9,12 +9,14 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto } from 'src/interfaces/auth';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth api')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get("/admins")
+  @Get('/admins')
   @HttpCode(200)
   getAllAdmin() {
     return this.authService.getAllAdmin();
