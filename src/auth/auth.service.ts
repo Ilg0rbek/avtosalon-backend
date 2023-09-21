@@ -1,9 +1,14 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { AuthDto } from 'src/interfaces/auth';
 import { Auth } from './schema/auth.schema';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
+import * as bycrpt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -22,6 +27,7 @@ export class AuthService {
     interface User extends AuthDto {
       _id: string;
     }
+
     try {
       const user: User = await this.AuthModel.findOne({ username });
 
@@ -29,8 +35,11 @@ export class AuthService {
         return new UnauthorizedException();
       }
 
-      if (password !== user?.password) {
-        return 'Sorry password or username mistake';
+      const isMatch = await bycrpt.compare(password, user.password);
+      console.log(isMatch);
+
+      if (!isMatch) {
+        return new BadRequestException('Error!!! Passwor or Username');
       }
 
       const payload = { sub: user._id, username: user.username };
@@ -43,16 +52,22 @@ export class AuthService {
   }
 
   async createAdmin(dto: AuthDto) {
-    const { username } = dto;
+    const { username, password } = dto;
 
     try {
       console.log(username);
 
+      const hashPassword = await bycrpt.hash(password, 10);
+
       const user = await this.AuthModel.findOne({ username });
 
-      if (user) return 'This is username alerady exits';
+      if (user) return new BadRequestException('User is alerady exits');
 
-      return await this.AuthModel.create(dto);
+      return await this.AuthModel.create({
+        password: hashPassword,
+        username: dto.username,
+        role: dto.role,
+      });
     } catch (err) {
       console.error(err.message);
     }
@@ -63,6 +78,6 @@ export class AuthService {
   }
 
   async updateAdmin(id: string, dto: AuthDto) {
-    return await this.AuthModel.findOneAndUpdate({ id, dto });
+    return await this.AuthModel.findOneAndUpdate({ id, dto }, { new: true });
   }
 }

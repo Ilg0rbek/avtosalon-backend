@@ -14,7 +14,7 @@ import { AuthDto } from 'src/interfaces/auth';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get()
+  @Get("/admins")
   @HttpCode(200)
   getAllAdmin() {
     return this.authService.getAllAdmin();
@@ -26,13 +26,13 @@ export class AuthController {
     return this.authService.login(dto);
   }
 
-  @Post('/newadmin')
+  @Post('/addadmin')
   @HttpCode(201)
   create(@Body() dto: AuthDto) {
     return this.authService.createAdmin(dto);
   }
 
-  @Delete('delete/:id')
+  @Delete('/removeadmin/:id')
   @HttpCode(201)
   delete(@Param('id') id: string) {
     return this.authService.deleteAdmin(id);

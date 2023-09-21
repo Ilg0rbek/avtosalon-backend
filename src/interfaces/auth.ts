@@ -11,7 +11,7 @@ export class AuthDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(12)
-  @MinLength(6)
+  @MinLength(5)
   @ApiProperty()
   password: string;
   @ApiProperty()
