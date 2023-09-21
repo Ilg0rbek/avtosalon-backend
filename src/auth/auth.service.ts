@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { authDto } from 'src/interfaces/auth';
+import { AuthDto } from 'src/interfaces/auth';
 import { Auth } from './schema/auth.schema';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
@@ -12,17 +12,21 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async login(dto: authDto) {
+  async getAllAdmin() {
+    return await this.AuthModel.find({}).exec();
+  }
+
+  async login(dto: AuthDto) {
     const { username, password } = dto;
 
-    interface User extends authDto {
+    interface User extends AuthDto {
       _id: string;
     }
     try {
       const user: User = await this.AuthModel.findOne({ username });
 
       if (!user) {
-       return  new UnauthorizedException();
+        return new UnauthorizedException();
       }
 
       if (password !== user?.password) {
@@ -38,14 +42,14 @@ export class AuthService {
     }
   }
 
-  async createAdmin(dto: authDto) {
+  async createAdmin(dto: AuthDto) {
     const { username } = dto;
 
     try {
       console.log(username);
-      
+
       const user = await this.AuthModel.findOne({ username });
-       
+
       if (user) return 'This is username alerady exits';
 
       return await this.AuthModel.create(dto);
@@ -58,7 +62,7 @@ export class AuthService {
     return await this.AuthModel.findOneAndDelete({ id });
   }
 
-  async updateAdmin(id: string, dto: authDto) {
+  async updateAdmin(id: string, dto: AuthDto) {
     return await this.AuthModel.findOneAndUpdate({ id, dto });
   }
 }

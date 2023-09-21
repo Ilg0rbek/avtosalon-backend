@@ -2,26 +2,33 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpCode,
   Param,
   Post,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { authDto } from 'src/interfaces/auth';
+import { AuthDto } from 'src/interfaces/auth';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Get()
+  @HttpCode(200)
+  getAllAdmin() {
+    return this.authService.getAllAdmin();
+  }
+
   @Post('/login')
   @HttpCode(200)
-  login(@Body() dto: authDto) {
+  login(@Body() dto: AuthDto) {
     return this.authService.login(dto);
   }
 
   @Post('/newadmin')
   @HttpCode(201)
-  create(@Body() dto: authDto) {
+  create(@Body() dto: AuthDto) {
     return this.authService.createAdmin(dto);
   }
 

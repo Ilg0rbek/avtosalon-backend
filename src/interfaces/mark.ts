@@ -1,10 +1,13 @@
-import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class Markdto {
   @IsString()
   @IsNotEmpty()
+  @ApiProperty()
   title: string;
   @IsString()
   @IsNotEmpty()
+  @ApiProperty()
   img: string;
 }

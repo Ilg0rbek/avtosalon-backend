@@ -9,7 +9,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { MarkService } from './mark.service';
-import { Markdto } from '../interfaces/markdto';
+import { Markdto } from '../interfaces/mark';
 
 @Controller('mark')
 export class MarkController {
