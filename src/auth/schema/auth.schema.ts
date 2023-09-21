@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { maxLength } from 'class-validator';
 import { HydratedDocument } from 'mongoose';
 
 export type AuthDocument = HydratedDocument<Auth>;
@@ -6,9 +7,9 @@ export type AuthDocument = HydratedDocument<Auth>;
 @Schema()
 export class Auth {
   @Prop()
-  login: string;
+  username: string;
   @Prop()
-  password: number;
+  password: string;
 }
 
-export const AuthSchema = SchemaFactory.createForClass(Auth)
+export const AuthSchema = SchemaFactory.createForClass(Auth);
