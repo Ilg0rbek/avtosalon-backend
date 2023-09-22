@@ -12,7 +12,7 @@ import { MarkService } from './mark.service';
 import { Markdto } from '../interfaces/mark';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('Marks api')
+@ApiTags('Car brands api')
 @Controller('mark')
 export class MarkController {
   constructor(private readonly markService: MarkService) {}

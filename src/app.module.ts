@@ -11,9 +11,9 @@ import { AuthModule } from './auth/auth.module';
     MongooseModule.forRoot(
       `mongodb+srv://avtosalon:${process.env.DB_PASSWORD}@cluster0.06p8kb2.mongodb.net`,
     ),
+    AuthModule,
     MarkModule,
     CarsModule,
-    AuthModule,
   ],
 })
 export class AppModule {}

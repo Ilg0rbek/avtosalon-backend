@@ -17,7 +17,6 @@ export class MarkService {
   }
 
   async getById(id: string) {
-    console.log(id);
     return await this.MarkModel.findById(id);
   }
 
